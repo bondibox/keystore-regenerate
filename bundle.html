@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recover Tronscan password</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="./bundle.js"></script>
+</head>
+<body>
+  <script>
+
+    //zxcvbn (quality password evaluator)
+    function getNewInsertion(value){
+      const evaluation = zxcvbn(value);
+      document.getElementById("score").innerHTML ="<img src=\"./img/" + evaluation.score + ".png\" />";
+      //const score = evaluation.score;
+      //const suggestions = evaluation.feedback;
+    }
+    
+    function evalEqual(value){
+      var p1  = document.getElementById("password1").value;
+      if(p1===value){
+        document.getElementById("equal").innerHTML ="<img src='./img/ok.png' width=\"10px\" />";
+      }else{
+        document.getElementById("equal").innerHTML ="Passwords are not equal";
+      }
+    }
+
+  function downloadStringAsFile(contents, filename, mimetype = 'text/plain') {
+    let a = window.document.createElement('a');
+    a.href = window.URL.createObjectURL(new Blob([contents], {type: mimetype}));
+    a.download = filename;
+
+    // Append anchor to body.
+    document.body.appendChild(a);
+    a.click();
+
+    // Remove anchor from body
+    document.body.removeChild(a);
+  }
+
+    function generateTronscanTxt(){
+/*       var address = "TEvhscC2eEv2gvENtLgmofGoLe3zZRjKib";
+    var privateKey = "83D4174854CE2A35226DAE32A83B69C6A08E2F54B802957A362DB060F366BAAD";
+    var fieldPassword = "$afeP@ssword1234";  */ 
+    var address = document.getElementById("address").value;
+    var privateKey = document.getElementById("pk").value;
+    var fieldPassword = document.getElementById("password1").value;
+    var salt = window.uuidv4();
+
+    var encryptedKey = encryptKey(fieldPassword, salt);
+    let {hex, bytes} = encryptString(encryptedKey, privateKey);
+    var ddd = { encryptedKey, hex, bytes};
+
+    var aux = {
+        version: 1,
+        key: ddd.hex,
+        address: address,
+        salt,
+      };
+
+    var bitArr = byteArray2hexStr(stringToBytes(JSON.stringify(aux)));
+    //console.log("salt " + salt);
+    //console.log("hex " + hex);
+    //console.log("bytes " + bytes);
+
+    console.log("bitArr " + bitArr); 
+    document.getElementById("result").innerHTML="";
+    document.getElementById("result").innerHTML=bitArr;
+    downloadStringAsFile(bitArr, address + ".txt");
+  }
+  
+
+
+  </script>
+  <span class="cn_pass" >
+    <form>
+        <center><h1>COMMUNITY NODE - TRON SR CANDIDATE</h1></center>
+    <p><center>Re-generate your Tronscan.org password file</center></p>
+  </p>
+  <table border="0">
+    <tr>
+      <td>
+
+    <p><div style="display:inline">Account address:&nbsp;&nbsp; <input type="text" name="address" id="address"  class="text_box"/> &nbsp;&nbsp;</div></p>
+    <p><div style="display:inline">Private key:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="pk" id="pk"  class="text_box"/>&nbsp;&nbsp;</div></p>
+    <p><div style="display:inline">Password:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input
+      type       = "password"
+      name       = "password"
+      id         = "password1"
+      class      = "text_box" 
+      onchange   = "getNewInsertion(this.value);"
+        onkeypress = "getNewInsertion(this.value);"
+        onpaste    = "getNewInsertion(this.value);"
+        oninput    = "getNewInsertion(this.value);"  />&nbsp;&nbsp;&nbsp;&nbsp;<div class="example" id="score"></div>
+    &nbsp;&nbsp;</div></p>
+    <p><div style="display:inline">Re-type password:&nbsp;
+      <input
+      type       = "password"
+          name       = "password2"
+          id         = "password2"
+          class      = "text_box" 
+          onchange   = "evalEqual(this.value);"
+          onkeypress = "evalEqual(this.value);"
+          onpaste    = "evalEqual(this.value);"
+          oninput    = "evalEqual(this.value);"  />&nbsp;&nbsp;&nbsp;&nbsp;<div class="example" id="equal"></div>
+      &nbsp;&nbsp;</div></p>
+      <input type="button" id="a" onclick="generateTronscanTxt()" value="Generate and save tronscan file" /><p/>
+    </form>
+  </span>
+</td>
+<td valign="top">
+  <img src='./img/instructions.jpg' width="400" />
+</td>
+</tr>
+
+</table>
+
+<textarea id="result" class="text_area" ></textarea>
+</br>
+</br>
+</br>
+</br>
+
+<span class="cn_info"><br><center>
+    This service is brought to you by Community Node. We need your votes to keep protecting the Tron ecosystem.<br /> Source code available here: <a href="https://github.com/bondibox/keystore-regenerate">https://github.com/bondibox/keystore-regenerate</a>
+    </center>
+</span>
+
+</body>
+</html>

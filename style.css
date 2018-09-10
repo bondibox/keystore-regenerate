@@ -1,0 +1,53 @@
+.cn_pass { 
+  height: 375px; 
+  width: 840px; 
+  padding: 11px 55px 73px 29px; 
+  margin: 10px auto 0px auto; 
+  display: block; 
+  background:  #A4A4AB ;
+  font-size: 12px; 
+  font-family: Menlo, Consolas, Monaco, "Lucida Console", monospace; 
+  border-radius: 4px;  
+  opacity:0.95;
+}
+
+.cn_info { 
+  height: 40px; 
+  width: 780px; 
+  padding: 0px 55px 0px 29px; 
+  margin: 40px 50px 0px 0px; 
+  display: block; 
+  background: #84848B; 
+  font-size: 12px; 
+  color: #161616; 
+  font-family: Menlo, Consolas, Monaco, "Lucida Console", monospace; 
+  border-radius: 4px;  
+  opacity:0.85;
+}
+
+body {
+  background-image: url("./img/cn_wallpaper_0.jpg"), url("./img/paper.gif");
+  background-color: #333333;
+  background-repeat: no-repeat, repeat;
+  background-size: cover; 
+  height: 10%;
+}
+
+.text_box {
+  width: 250px;
+  display: inline;
+  font-size: 12px; 
+}
+.text_area{
+  border: 0;
+  background-color: #A4A4AB;
+  outline: none;
+  width: 800px;
+  height: 60px;
+}
+
+.example{
+  display: inline;
+  font-size: 12px; 
+  color: #5D5D5D; 
+}
